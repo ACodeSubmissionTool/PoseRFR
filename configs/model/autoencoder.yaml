@@ -1,0 +1,39 @@
+target: ldm.models.autoencoder.AutoencoderKLResiWD
+params:
+  # for training only
+  ckpt_path: checkpoints/autoencoder.ckpt
+  left_eye_ckpt: ~
+  right_eye_ckpt: ~
+  mouth_ckpt: ~
+  learning_rate: 5.0e-5
+  monitor: "val/rec_loss"
+  embed_dim: 4
+  fusion_w: 1.0
+  freeze_dec: True
+  synthesis_data: False
+  
+  lossconfig:
+    target: ldm.modules.losses.LPIPSWithLocalDiscriminator
+    params:
+      disc_start: 1001
+      kl_weight: 0
+      disc_weight: 0.025
+      disc_factor: 0.0
+      
+  ddconfig:
+    double_z: true
+    z_channels: 4
+    resolution: 256
+    in_channels: 3
+    out_ch: 3
+    ch: 128
+    ch_mult:
+    - 1
+    - 2
+    - 4
+    - 4
+    num_res_blocks: 2
+    attn_resolutions: []
+    dropout: 0.0
+
+
